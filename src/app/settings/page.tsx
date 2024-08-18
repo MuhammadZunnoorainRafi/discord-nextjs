@@ -1,3 +1,4 @@
+import { action_initialProfile } from '@/actions/profile/initial-profile';
 import LogoutButton from '@/components/auth/LogoutButton';
 import { getUserServer } from '@/hooks/getUserServert';
 import { redirect } from 'next/navigation';

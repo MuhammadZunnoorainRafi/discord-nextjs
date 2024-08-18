@@ -16,3 +16,7 @@ export const RegSchema = z.object({
     .email('Enter a valid email address'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
 });
+
+export const ServerSchema = z.object({
+  name: z.string().min(1, 'Enter server name'),
+});

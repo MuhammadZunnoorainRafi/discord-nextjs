@@ -20,4 +20,68 @@ model User {
   password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  Profile Profile?
+}
+
+model Profile {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Server  Server[]
+  Member  Member[]
+  Channel Channel[]
+}
+
+model Server {
+  id         String   @id @default(cuid())
+  name       String
+  inviteCode String
+  profileId  String
+  profile    Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  Member  Member[]
+  Channel Channel[]
+}
+
+enum MemberRole {
+  ADMIN
+  MODERATOR
+  GUEST
+}
+
+model Member {
+  id        String     @id @default(cuid())
+  role      MemberRole @default(GUEST)
+  profileId String
+  serverId  String
+  profile   Profile    @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  server    Server     @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+enum ChannelType {
+  TEXT
+  AUDIO
+  VIDEO
+}
+
+model Channel {
+  id        String      @id @default(cuid())
+  name      String
+  type      ChannelType @default(TEXT)
+  profileId String
+  serverId  String
+  profile   Profile     @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  server    Server      @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
 }
