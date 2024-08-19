@@ -34,6 +34,6 @@ export const action_createServer = async (formData: ServerType) => {
     console.log(error);
     return { error: 'Internal server error' };
   }
-  revalidatePath(`/servers/${server.id}`);
+  revalidatePath(`/servers`);
   redirect(`/servers/${server.id}`);
 };

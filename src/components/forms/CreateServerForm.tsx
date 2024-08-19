@@ -26,9 +26,11 @@ import { ServerSchema } from '@/lib/schemas';
 import { useTransition } from 'react';
 import { toast } from 'sonner';
 import { action_createServer } from '@/actions/server/create-server';
+import { useParams } from 'next/navigation';
 
-export function CreateOrgForm() {
+export function CreateServerForm() {
   const [isPending, startTransition] = useTransition();
+  const params = useParams();
 
   const form = useForm<ServerType>({
     resolver: zodResolver(ServerSchema),
@@ -40,23 +42,34 @@ export function CreateOrgForm() {
   const formSubmit = (formData: ServerType) => {
     startTransition(async () => {
       const res = await action_createServer(formData);
+
       if (res?.error) {
         toast.error(res.error);
+      } else {
+        toast.success(`Server "${formData.name}" created`);
       }
     });
   };
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="default" className="rounded-full" size="icon">
-          <PlusIcon className="h-6 w-6" />
+        <Button
+          variant="default"
+          size={params.serverId ? 'icon' : 'default'}
+          className="rounded-full"
+        >
+          {params.serverId ? (
+            <PlusIcon className="h-6 w-6" />
+          ) : (
+            ' Create Server'
+          )}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Create Organization</DialogTitle>
+          <DialogTitle>Create Server</DialogTitle>
           <DialogDescription>
-            Make your tasks to be done on time by creating organization
+            Make your tasks to be done on time by creating server
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -71,7 +84,7 @@ export function CreateOrgForm() {
                     <Input
                       {...field}
                       disabled={isPending}
-                      placeholder="Pedro Duarte"
+                      placeholder="Web Development"
                       className="col-span-3"
                     />
                   </FormControl>
