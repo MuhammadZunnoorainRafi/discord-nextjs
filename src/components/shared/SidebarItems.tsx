@@ -39,10 +39,14 @@ function SidebarItems({ server }: Props) {
           server.Member.map((member) => (
             <Link
               key={member.id}
-              href={`/servers/${member.serverId}/member/${member.id}`}
-              className="hover:text-slate-400 transition-all"
+              href={`/servers/${member.serverId}/conversations/${member.id}`}
+              className={`${
+                params.memberId === member.id
+                  ? 'text-yellow-400'
+                  : 'text-white hover:text-slate-400'
+              }  transition-all`}
             >
-              {member.profileId.slice(-1)}
+              {member.profileId.slice(-3)}
             </Link>
           ))}
       </div>
