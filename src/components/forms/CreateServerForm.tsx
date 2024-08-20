@@ -42,11 +42,11 @@ export function CreateServerForm() {
   const formSubmit = (formData: ServerType) => {
     startTransition(async () => {
       const res = await action_createServer(formData);
-
-      if (res?.error) {
-        toast.error(res.error);
+      if (!res || res.error) {
+        toast.error(res?.error || 'User not found');
       } else {
         toast.success(`Server "${formData.name}" created`);
+        form.reset();
       }
     });
   };
