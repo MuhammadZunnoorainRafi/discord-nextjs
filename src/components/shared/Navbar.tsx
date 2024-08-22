@@ -4,6 +4,7 @@ import { getUserServer } from '@/hooks/getUserServert';
 import { Button } from '../ui/button';
 import Link from 'next/link';
 import { ThemeToggle } from './ThemeToggle';
+import SocketIndicator from './SocketIndicator';
 
 async function Navbar() {
   const user = await getUserServer();
@@ -24,6 +25,7 @@ async function Navbar() {
             </Button>
           )}
         </div>
+        <SocketIndicator />
       </div>
     </div>
   );

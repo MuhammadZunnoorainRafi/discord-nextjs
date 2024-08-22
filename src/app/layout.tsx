@@ -7,6 +7,7 @@ import Navbar from '@/components/shared/Navbar';
 import { ThemeProvider } from '@/lib/ThemeProvider';
 import { Toaster } from '@/components/ui/sonner';
 import Sidebar from '@/components/shared/Sidebar';
+import { SocketProvider } from '@/provider/SocketContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -30,14 +31,16 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <div className="flex flex-col justify-between min-h-screen bg-secondary">
-              <Navbar />
-              <div className="flex justify-start items-start flex-grow">
+            <SocketProvider>
+              <div className="flex flex-col justify-between min-h-screen bg-secondary">
+                <Navbar />
+                <div className="flex justify-start items-start flex-grow">
                   <Sidebar />
-                <main className="flex-grow">{children}</main>
+                  <main className="flex-grow">{children}</main>
+                </div>
+                <Footer />
               </div>
-              <Footer />
-            </div>
+            </SocketProvider>
             <Toaster richColors />
           </ThemeProvider>
         </SessionProvider>
